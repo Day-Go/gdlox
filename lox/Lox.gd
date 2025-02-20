@@ -19,11 +19,21 @@ func main(args: Array[String]) -> void:
 		run_prompt()
 
 
-func run_file(file_name: String) -> int:
-	print("Running %s..." % file_name)
-	return 0
+func run_file(path: String) -> void:
+	print("Running %s..." % path)
+	var bytes: PackedByteArray = FileAccess.get_file_as_bytes(path)
+	run(bytes.get_string_from_utf8())
 
 
-func run_prompt() -> int:
+func run_prompt() -> void:
 	print("Running prompt...")
-	return 0
+	while true:
+		var line = OS.read_string_from_stdin().strip_edges()
+		if line.length() > 0:
+			run(line)
+		else:
+			OS.delay_msec(100)
+
+
+func run(source: String) -> void:
+	print(source)
