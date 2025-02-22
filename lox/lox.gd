@@ -43,7 +43,6 @@ func run_prompt() -> void:
 func run(source: String) -> void:
 	var scanner := Scanner.new(source)
 	var tokens: Array[Token] = scanner.scan_tokens()
-	print(source)
 
 	for token in tokens:
 		print(token)
