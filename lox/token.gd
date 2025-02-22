@@ -5,11 +5,11 @@ class_name Token
 # and give them ALL CAPS names
 var TYPE: TokenType.Type
 var LEXEME: String
-var LITERAL: Object
+var LITERAL: Variant
 var LINE: int
 
 
-func _init(type: TokenType.Type, lexeme: String, literal: Object, line: int) -> void:
+func _init(type: TokenType.Type, lexeme: String, literal: Variant, line: int) -> void:
 	TYPE = type
 	LEXEME = lexeme
 	LITERAL = literal

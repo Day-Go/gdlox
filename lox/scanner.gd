@@ -58,8 +58,50 @@ func scan_token() -> void:
 					advance()
 			else:
 				add_token(TokenType.Type.SLASH)
+		" ":
+			pass
+		"\r":
+			pass
+		"\t":
+			pass
+		"\n":
+			line += 1
+		'"':
+			string()
 		_:
-			Lox.error(line, "Unexpected character.")
+			if c.is_valid_int():
+				number()
+			else:
+				Lox.error(line, "Unexpected character.")
+
+
+func string() -> void:
+	while peek() != '"' and !is_at_end():
+		if peek() == "\n":
+			line += 1
+		advance()
+
+	if is_at_end():
+		Lox.error(line, "Unterminated string.")
+		return
+
+	advance()
+
+	var value: String = SOURCE.substr(start + 1, current - 1)
+	add_token_literal(TokenType.Type.STRING, value)
+
+
+func number() -> void:
+	while peek().is_valid_int():
+		advance()
+
+	if peek() == "." and peek_next().is_valid_int():
+		advance()
+
+		while peek().is_valid_int():
+			advance()
+
+	add_token_literal(TokenType.Type.NUMBER, SOURCE.substr(start, current) as float)
 
 
 func match(expected: String) -> bool:
@@ -78,6 +120,12 @@ func peek() -> String:
 	return SOURCE[current]
 
 
+func peek_next() -> String:
+	if (current + 1) >= SOURCE.length():
+		return char(0)
+	return SOURCE[current + 1]
+
+
 func advance() -> String:
 	current += 1
 	return SOURCE[current]
@@ -87,7 +135,7 @@ func add_token(type: TokenType.Type) -> void:
 	add_token_literal(type, null)
 
 
-func add_token_literal(type: TokenType.Type, literal: Object) -> void:
+func add_token_literal(type: TokenType.Type, literal: Variant) -> void:
 	var text: String = SOURCE.substr(start, current)
 	var token := Token.new(type, text, literal, line)
 	TOKENS.append(token)
