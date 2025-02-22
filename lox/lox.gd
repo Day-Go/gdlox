@@ -1,12 +1,11 @@
 extends SceneTree
 class_name Lox
 
-var had_error: bool = false
+static var had_error: bool = false
 
 
 func _init() -> void:
 	var args = OS.get_cmdline_user_args()
-	print(args)
 
 	main(args)
 
@@ -42,7 +41,7 @@ func run_prompt() -> void:
 
 
 func run(source: String) -> void:
-	var scanner := Scanner.new()
+	var scanner := Scanner.new(source)
 	var tokens: Array[Token] = scanner.scan_tokens()
 	print(source)
 
@@ -50,10 +49,10 @@ func run(source: String) -> void:
 		print(token)
 
 
-func error(line: int, message: String) -> void:
+static func error(line: int, message: String) -> void:
 	report(line, "", message)
 
 
-func report(line: int, where: String, message: String) -> void:
+static func report(line: int, where: String, message: String) -> void:
 	push_error("[line %s] Error %s: %s" % [line, where, message])
 	had_error = true

@@ -1,6 +1,6 @@
 class_name TokenType
 
-enum TokenType {
+enum Type {
 	# Single character tokens
 	LEFT_PAREN,
 	RIGHT_PAREN,
