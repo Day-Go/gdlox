@@ -27,6 +27,7 @@ func run_file(path: String) -> void:
 
 	if had_error:
 		quit()
+	quit()
 
 
 func run_prompt() -> void:

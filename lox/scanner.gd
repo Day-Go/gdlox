@@ -33,7 +33,6 @@ func _init(source: String) -> void:
 
 
 func scan_tokens() -> Array[Token]:
-	print(SOURCE)
 	while !is_at_end():
 		start = current
 		scan_token()
@@ -45,7 +44,6 @@ func scan_tokens() -> Array[Token]:
 
 func scan_token() -> void:
 	var c = advance()
-	print(c)
 	match c:
 		"(":
 			add_token(TT.LEFT_PAREN)
@@ -168,7 +166,6 @@ func is_alpha(c: String) -> bool:
 
 
 func is_alpha_numeric(c: String) -> bool:
-	print("Checking if alpha numeric: %s" % c)
 	return is_alpha(c) or c.is_valid_int()
 
 
